@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %} {% endblock %}
+
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="navigation">
+          <img src="{% static 'images/ADIT logo.PNG' %}" alt="ADIT Logo" class="logo" />
+          <div class="navtext">
+            <h5>A D PATEL INSTITUTE OF TECHNOLOGY</h5>
+            <p>Department of Computer Science & Design</p>
+          </div>
+    
+          <img src="{% static 'images/CVMU logo.PNG' %}" alt="CVM University Logo" class="logo" />
+        </div>
+    </div>
+    {% block content %} {% endblock %}    
+</body>
+</html>
