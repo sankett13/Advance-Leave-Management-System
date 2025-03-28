@@ -21,13 +21,13 @@ class StudentContactDetail(models.Model):
     Hostel_Block = models.CharField(max_length=1)
     Room_No = models.IntegerField()   
     Parent_No = models.IntegerField()
-    Parent_Email = models.CharField(max_length=255)
+    Parent_Email = models.CharField(max_length=255, null=True,blank=True)
 
     def __str__(self):
         return str(self.StudentID)
 
 class LeaveHistory(models.Model):
-    student_id = models.CharField(max_length=20)     
+    student_id = models.ForeignKey('StudentBasicDetail', on_delete=models.CASCADE)
     start_date = models.DateField(max_length=20)     
     end_date = models.DateField(max_length=20)      
     no_of_days = models.IntegerField()
