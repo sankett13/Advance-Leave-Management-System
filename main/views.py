@@ -6,6 +6,7 @@ from .serializers import LeaveHistorySerializer, StudentBasicDetailSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib import messages
+from datetime import date
 
 def student(request):
     return render(request, 'student.html')
@@ -100,37 +101,45 @@ def leaveapply(request):
 
 def faculty_advisor(request):
     id = request.session.get('fp_id')
-    faculty_advisor = FacultyDetail.objects.get(fp_id=id)
-    students = StudentBasicDetail.objects.filter(Batch_Year=faculty_advisor.Batch_Year,department=faculty_advisor.department)
-    
-    leave_students = LeaveHistory.objects.filter(student_id__in=students, status_fa='pending')
-    
-    print(leave_students)
+    faculty_advisor = get_object_or_404(FacultyDetail, fp_id=id)
+    students = StudentBasicDetail.objects.filter(Batch_Year=faculty_advisor.Batch_Year, department=faculty_advisor.department)
 
-    for leave in leave_students:
-        print(leave.status_fa)
+    today = date.today()
+    leave_applications = LeaveHistory.objects.filter(student_id__in=students, status_fa='pending')
 
-    return render(request, 'faculty_advisor.html', {'leave_students': leave_students})
+    pending_count = LeaveHistory.objects.filter(student_id__in=students, status_fa='pending').count()
+    approved_count = LeaveHistory.objects.filter(student_id__in=students, status_fa='approved').count()
+    rejected_count = LeaveHistory.objects.filter(student_id__in=students, status_fa='rejected').count()
+
+    context = {
+        'faculty_advisor': faculty_advisor,
+        'leave_applications': leave_applications,
+        'pending_count': pending_count,
+        'approved_count': approved_count,
+        'rejected_count': rejected_count,
+    }
+
+    return render(request, 'FA.html', context)
 
 
 def approve_leave(request, leave_id):
-    try:
-        leave = LeaveHistory.objects.get(id=leave_id)
-        leave.status_fa = 'approved'
-        leave.save()
-        return Response({'message': 'Leave approved successfully'})
-    except LeaveHistory.DoesNotExist:
-        return Response({'error': 'Leave not found'}, status=404)
-    except Exception as e:
-        return Response({'error': str(e)}, status=500)
-    
+    if request.method == 'POST':
+        try:
+            leave = get_object_or_404(LeaveHistory, id=leave_id)
+            leave.status_fa = 'approved'
+            leave.save()
+            return JsonResponse({'message': 'Leave approved successfully', 'ok': True}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e), 'ok': False}, status=500)
+    return JsonResponse({'error': 'Invalid request method', 'ok': False}, status=400)
+
 def reject_leave(request, leave_id):
-    try:
-        leave = LeaveHistory.objects.get(id=leave_id)
-        leave.status_fa = 'rejected'
-        leave.save()
-        return Response({'message': 'Leave rejected successfully'})
-    except LeaveHistory.DoesNotExist:
-        return Response({'error': 'Leave not found'}, status=404)
-    except Exception as e:
-        return Response({'error': str(e)}, status=500)
+    if request.method == 'POST':
+        try:
+            leave = get_object_or_404(LeaveHistory, id=leave_id)
+            leave.status_fa = 'rejected'
+            leave.save()
+            return JsonResponse({'message': 'Leave rejected successfully', 'ok': True}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e), 'ok': False}, status=500)
+    return JsonResponse({'error': 'Invalid request method', 'ok': False}, status=400)
