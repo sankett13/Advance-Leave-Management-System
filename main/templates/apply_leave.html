@@ -18,18 +18,19 @@
 </head>
 
 <body>
-    <div>
+    <div class="container leave">
         <h1>Leave Application Form</h1>
         <form action="{% url 'leaveapply' %}" method="post">
             {% csrf_token %}
-
+            <div class="d-flex align-items-center justify-content-center">
+                <div class="justify-content-left"></div>
             <label for="start_date">Start Date:
-                <input type="date" name="start_date" id="start_date" required>
-            </label><br><br>
+                <input type="date" name="start_date" id="start_date" class="startdate" required>
+            </label>
 
             <label for="end_date" class="box2">End Date:
-                <input type="date" name="end_date" id="end_date" required>
-            </label><br><br>
+                <input type="date" name="end_date" id="end_date" class="enddate" required>
+            </label></div>
 
             <label for="reason" class="text-area">Reason for leave:<br>
                 <textarea name="reason" rows="3" cols="120" placeholder="Please provide detailed reason for the leave request" required></textarea>
