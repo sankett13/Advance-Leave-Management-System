@@ -9,7 +9,8 @@ from django.contrib import messages
 from datetime import date
 
 def student(request):
-    return render(request, 'student.html')
+    if request.method == 'GET':
+        return render(request, 'Student.html')
 
 def FA(request):
     return render(request, 'FA.html')
@@ -38,7 +39,8 @@ def login(request):
                 print(student)
                 if student.password == password:
                     request.session['sp_id'] = user_id
-                    return redirect('leaveapply')
+                    print("here in student")
+                    return redirect('student')
                 else:
                     messages.error(request, "Login failed. Incorrect password.")
                     return redirect('login')
