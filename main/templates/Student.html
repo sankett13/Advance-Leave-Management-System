@@ -47,15 +47,52 @@
         </div>
       </div>
    
-    <br>
-    <div><p>Reason for leave</p>
-        <p>From:</p>
-        <p>To</p>
-        progress bar
-        <button type="button">Download letter</button>
-    </div><br>
-            <div>
-      <p>Last leave history</p>
-    </div>
+    
+    <div class="card mt-4">
+      <div class="card-body" style="border-left: 7px solid #e6edf3;">
+          <h5>Leave for Summer Vacation</h5>
+          <p>Sunmitted on: 12th Jan 2024</p>
+          <br>
+          <h6>Time Period</h6>
+          <p>From: &nbsp;<b>12th Jan 2024 </b> | To:&nbsp; <b>20th Jan 2024</b></p>
+          <br>
+          <div class="status-rejected mt-3">
+            <i class="fa-solid fa-xmark" style="font-size: 20px; margin-right: 20px;"></i> Rejected by Hostel Incharge
+        </div>
+    
+        <p class="mt-4 text-dark">Approval Timeline</p>
+        <div class="d-flex">
+            <div class="timeline-step">
+                <div class="circle completed">1</div> Student ➝ &nbsp;
+            </div>
+            <div class="timeline-step">
+                <div class="circle pending">2</div> Parent ➝ &nbsp;
+            </div>
+            <div class="timeline-step">
+                <div class="circle pending">3</div> Advisor ➝ &nbsp;
+            </div>
+            <div class="timeline-step">
+                <div class="circle rejected">4</div> Hostel &nbsp;
+            </div>
+        </div>
+    
+      </div>
+  </div>
+
+  <h5 class="mt-4">Leave History</h5>
+  <div class="row">
+      <div class="col-md-6">
+          <div class="card p-3 mt-2" style="background-color: #e6edf3;">
+              <h6>Leave for visiting home</h6>
+              <p>From: 12th Jan 2024</p>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="card p-3 mt-2 text-white" style="background-color: #005384;">
+              <h6>Leave for visiting home</h6>
+              <p>From: 12th Jan 2024</p>
+          </div>
+      </div>
+  </div>
 </div>
 {% endblock %}

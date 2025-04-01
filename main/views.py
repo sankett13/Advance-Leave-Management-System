@@ -8,8 +8,11 @@ from rest_framework.response import Response
 from django.contrib import messages
 from datetime import date
 
-def base(request):
-    return render(request, 'base.html')
+def student(request):
+    return render(request, 'student.html')
+
+def FA(request):
+    return render(request, 'FA.html')
 
 def login(request):
     if request.method == 'GET':
