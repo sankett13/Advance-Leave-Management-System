@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Leave Application Form</title>
+</head>
+<body>
+
+<h2>Leave Application Form</h2>
+<h3>Student name is {{student.name}}</h3>
+
+<form action="{% url 'leaveapply' %}" method="post">
+
+  {% csrf_token %}
+  <input type="text" name="student_name" value="{{student.name}}" hidden>
+  <label for="start_date">Start Date:</label><br>
+  <input type="date" id="start_date" name="start_date" required><br><br>
+
+  <label for="end_date">End Date:</label><br>
+  <input type="date" id="end_date" name="end_date" required><br><br>
+
+  <label for="reason">Reason for Leave:</label><br>
+  <textarea id="reason" name="reason" rows="4" cols="50" required></textarea><br><br>
+
+  <label for="place_to_visit">Place to Visit (if applicable):</label><br>
+  <input type="text" id="place_to_visit" name="place_to_visit"><br><br>
+
+  <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
