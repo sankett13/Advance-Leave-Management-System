@@ -1,20 +1,39 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
     <title>Login</title>
 </head>
 <body>
-    <h1>Login</h1>
+    <div class="container card  login">
+    <h2 class="login-text">Login</h2>
     <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
+<<<<<<< HEAD
         <label for="sp_id">sp_id:</label>
         <input type="text" id="sp_id" name="sp_id" required><br><br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required><br><br>
         <input type="submit" value="Login">
     </form>
+<<<<<<< HEAD
     
+=======
+=======
+        <label for="sp_id">sp_id:</label><br>
+        <input type="text" id="sp_id" name="sp_id" required class="id"><br><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required class="pass"><br><br>
+        <button type="submit" value="Login" class="btn btn-login">Login</button>
+    </div>
+>>>>>>> ef0a978fe5d695b6a0b4482c0d46dac040ced872
+>>>>>>> 4342fcc27824d040fcbf3188ae1664eb669d7e98
 </body>
 </html>

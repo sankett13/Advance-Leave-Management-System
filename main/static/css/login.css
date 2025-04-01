@@ -1,0 +1,43 @@
+body{
+ background-color: #e6edf3;
+}
+.login{
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 70%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.login-text{
+    margin-bottom: 30px;
+}
+
+.btn-login{
+    width: 350px;
+    height: 50px;
+    background-color: #005384;
+    color: white;
+    border-radius: 5px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.id, .pass {
+    width: 350px;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid #333333;
+    outline: none; /* Removes the default focus outline */
+    background: transparent; /* Ensures no background */
+    font-size: 16px;
+    padding: 5px;
+}
