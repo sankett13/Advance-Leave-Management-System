@@ -1,0 +1,53 @@
+.heading{
+    text-align: left;
+    margin: 10px 20px;
+} 
+
+.form{
+    text-align: left;
+    margin: 70px 200px;
+    height:90%;
+    width:70%;
+    font-size: 15px;
+    border: 1px solid grey;
+    font-weight: 500;
+}
+
+.box1{
+    /* align-items: left; */
+    margin: 20px 100px 20px 20px;
+}
+
+.box2{
+    /* align-items: right; */
+    margin: 20px 20px 20px 100px;
+}
+
+.text-area,.terms{
+    margin: 1px 20px;
+}
+
+.apply{
+   height: 40px;
+   width: 300px;
+   margin: 1px 20px 20px 20px;
+   padding: 0.5px 0.3px;
+   border-radius: 5px;
+   border-color: rgb(0, 83, 132);
+   background-color: rgba(0, 83, 132);
+   color: white;
+}
+
+#block,#room,#sdate,#edate{
+    width: 300px;
+}
+/* .cancel{
+    height: 40px;
+   width: 120px;
+   margin: 2px;
+   padding: 0.5px 0.3px;
+   border-radius: 5px;
+   border-color: rgb(222,32,41);
+   background-color: rgba(222,32,41, 21%);
+   text-decoration: rgb(222,32,41);
+} */
