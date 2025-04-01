@@ -8,9 +8,14 @@ from rest_framework.response import Response
 from django.contrib import messages
 from datetime import date
 
-def student(request):
-    if request.method == 'GET':
-        return render(request, 'Student.html')
+# def student(request):
+#     if request.method == 'GET':
+#         print("get method hai")
+#         return render(request, 'Student.html')
+#     if request.method=="POST":
+#         sp_id=request.session.get("sp_id")
+#         print("hello",sp_id)
+        
 
 def FA(request):
     return render(request, 'FA.html')
@@ -40,7 +45,10 @@ def login(request):
                 if student.password == password:
                     request.session['sp_id'] = user_id
                     print("here in student")
-                    return redirect('student')
+                    c_detail=StudentContactDetail.objects.get(id=student.id)
+                    print(c_detail)
+                    
+                    return render(request,"Student.html",{"student":student,"info":c_detail})
                 else:
                     messages.error(request, "Login failed. Incorrect password.")
                     return redirect('login')
