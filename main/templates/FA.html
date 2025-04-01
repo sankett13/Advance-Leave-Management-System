@@ -7,12 +7,11 @@
 
 {% block content %}
 <div class="container mt-4">
-    <!-- User Profile -->
     <div class="d-flex align-items-center">
-        <img src={% static 'images/FA.jpg' %} alt="User" class="rounded-circle FAimage " width="60" height="60" style="object-fit: cover;">
+        <img src="{% if faculty_advisor.Profile_Photo %}{{ faculty_advisor.Profile_Photo.url }}{% else %}{% static 'images/FA.jpg' %}{% endif %}" alt="User" class="rounded-circle FAimage " width="60" height="60" style="object-fit: cover;">
         <div class="ms-3">
-            <h5>Prerak Thakkar</h5>
-            <p class="text-dark">Faculty Advisor of CSD</p>
+            <h5>{{ faculty_advisor.name }}</h5>
+            <p class="text-dark">Faculty Advisor of {{ faculty_advisor.department }}</p>
         </div>
         <div class="searchbar input-group">
             <span class="input-group-text">
@@ -22,23 +21,22 @@
         </div>
     </div>
 
-    <!-- Status Cards -->
     <div class="row mt-4">
         <div class="col-md-4">
             <div class="card card1 text-center p-3 shadow-sm border-warning">
-                <h3  style="color: #c48e11; font-size: 40px;">30</h3>
+                <h3  style="color: #c48e11; font-size: 40px;">{{ pending_count }}</h3>
                 <p class="text-body">Pending</p>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card card2 text-center p-3 shadow-sm border-success">
-                <h3 class="text-success" style="font-size: 40px;">10</h3>
+                <h3 class="text-success" style="font-size: 40px;">{{ approved_count }}</h3>
                 <p class="text-body">Approved</p>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card card3 text-center p-3 shadow-sm border-danger">
-                <h3 class="text-danger" style="font-size: 40px;">1</h3>
+                <h3 class="text-danger" style="font-size: 40px;">{{ rejected_count }}</h3>
                 <p class="text-body">Rejected</p>
             </div>
         </div>
@@ -58,77 +56,87 @@
                 </tr>
             </thead>
             <tbody>
+                {% for leave in leave_applications %}
                 <tr>
                     <td>
                         <div class="d-flex align-items-center">
-                            <img src={% static 'images/student_photo.jpg' %} alt="Profile" class="rounded-circle mr-3" width="50" height="50">
+                            <img src="{% if leave.student_id.Profile_Photo %}{{ leave.student_id.Profile_Photo.url }}{% else %}{% static 'images/student_photo.jpg' %}{% endif %}" alt="Profile" class="rounded-circle mr-3" width="50" height="50">
                             <div>
-                                <strong>Michael John</strong><br>
-                                <small style="font-size: 15px;">Leave for going home</small>
+                                <strong>{{ leave.student_id.name }}</strong><br>
+                                <small style="font-size: 15px;">{{ leave.reason }}</small>
                             </div>
                         </div>
                     </td>
-                    <td>12 Jan 2024</td>
-                    <td>12 Jan 2024</td>
-                    <td>15</td>
-                    <td><button class="btn approve-btn">Approve</button></td>
-                    <td><button class="btn reject-btn">Reject</button></td>
+                    <td>{{ leave.start_date }}</td>
+                    <td>{{ leave.end_date }}</td>
+                    <td>{{ leave.no_of_days }}</td>
+                    <td><button data-leave-id="{{ leave.id }}" class="btn approve-btn">Approve</button></td>
+                    <td><button data-leave-id="{{ leave.id }}" class="btn reject-btn">Reject</button></td>
                 </tr>
+                {% empty %}
                 <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <img src={% static 'images/student_photo.jpg' %} alt="Profile" class="rounded-circle mr-3" width="50" height="50">
-                            <div>
-                                <strong>Michael John</strong><br>
-                                <small style="font-size: 15px;">Leave for going home</small>
-                            </div>
-                        </div>
-                    </td>
-                    <td>12 Jan 2024</td>
-                    <td>12 Jan 2024</td>
-                    <td>15</td>
-
-                    <td><button class="btn approve-btn">Approve</button></td>
-                    <td><button class="btn reject-btn">Reject</button></td>
+                    <td colspan="6" class="text-center">No leave applications found.</td>
                 </tr>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <img src={% static 'images/student_photo.jpg' %} alt="Profile" class="rounded-circle mr-3" width="50" height="50">
-                            <div>
-                                <strong>Michael John</strong><br>
-                                <small style="font-size: 15px;">Leave for going home</small>
-                            </div>
-                        </div>
-                    </td>
-                    <td>12 Jan 2024</td>
-                    <td>12 Jan 2024</td>
-                    <td>15</td>
-
-                    <td><button class="btn approve-btn">Approve</button></td>
-                    <td><button class="btn reject-btn">Reject</button></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <img src={% static 'images/student_photo.jpg' %} alt="Profile" class="rounded-circle mr-3" width="50" height="50">
-                            <div>
-                                <strong>Michael John</strong><br>
-                                <small style="font-size: 15px;">Leave for going home</small>
-                            </div>
-                        </div>
-                    </td>
-                    <td>12 Jan 2024</td>
-                    <td>12 Jan 2024</td>
-                    <td>15</td>
-
-                    <td><button class="btn approve-btn">Approve</button></td>
-                    <td><button class="btn reject-btn">Reject</button></td>
-                </tr>
-                
-                <!-- Repeat the above <tr> block for more entries -->
+                {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <script>
+        const approveBtns = document.querySelectorAll('.approve-btn');
+        const rejectBtns = document.querySelectorAll('.reject-btn');
+
+        approveBtns.forEach(btn => {
+            btn.addEventListener('click', function(event) {
+                event.preventDefault();
+                const leaveId = this.dataset.leaveId;
+                fetch(`/approve_leave/${leaveId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        window.location.reload();
+                    } else {
+                        console.error('Approval failed:', data.error);
+                        alert("Approval failed, please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert("Approval failed, please check your network connection.");
+                });
+            });
+        });
+
+        rejectBtns.forEach(btn => {
+            btn.addEventListener('click', function(event) {
+                event.preventDefault();
+                const leaveId = this.dataset.leaveId;
+                fetch(`/reject_leave/${leaveId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        window.location.reload();
+                    } else {
+                        console.error('Rejection failed:', data.error);
+                        alert("Rejection failed, please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert("Rejection failed, please check your network connection.");
+                });
+            });
+        });
+    </script>
 
 {% endblock content %}
