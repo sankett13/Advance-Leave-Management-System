@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,26 +7,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave Form</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="{% static 'css/apply_leave.css' %}">
+
+    {% block extra_css %} {% endblock %}
 </head>
 
 <body>
     <div>
-        <h1>Leave application Form</h1>
-        <form action="{% url 'leaveapply' %}">
-            <label for="sdate">Start Date:
-                <input type="date" placeholder="sdate">
+        <h1>Leave Application Form</h1>
+        <form action="{% url 'leaveapply' %}" method="post">
+            {% csrf_token %}
+
+            <label for="start_date">Start Date:
+                <input type="date" name="start_date" id="start_date" required>
             </label><br><br>
 
-            <label for="edate">End Date:
-                <input type="date" placeholder="edate">
+            <label for="end_date" class="box2">End Date:
+                <input type="date" name="end_date" id="end_date" required>
             </label><br><br>
 
-            <label for="reason">Reason for leave:
-                <textarea rows="3" cols="50" placeholder="Mention reason"></textarea>
+            <label for="reason" class="text-area">Reason for leave:<br>
+                <textarea name="reason" rows="3" cols="120" placeholder="Please provide detailed reason for the leave request" required></textarea>
             </label><br><br>
 
-            <label for="block">Select Block:
-                <select name="Block" id="block">
+            <label for="block" class="box1">Select Block:
+                <select name="block" id="block" required>
                     <option value="A">A</option>
                     <option value="B">B</option>
                     <option value="C">C</option>
@@ -34,10 +46,10 @@
                     <option value="G">G</option>
                     <option value="H">H</option>
                 </select>
-            </label><br><br>
+            </label>
 
-            <label for="room">Select Room:
-                <select name="Room" id="room">
+            <label for="room" class="box2">Select Room:
+                <select name="room" id="room" required>
                     <option value="101">101</option>
                     <option value="102">102</option>
                     <option value="103">103</option>
@@ -57,17 +69,15 @@
                 </select>
             </label><br><br>
 
-
-            <label for="vaddress">Visiting Address:
-                <textarea rows="3" cols="50" placeholder="Mention Visiting Address"></textarea>
+            <label for="visiting_address" class="text-area">Visiting Address:<br>
+                <textarea name="visiting_address" rows="3" cols="120" placeholder="Please mention detailed Visiting Address" required></textarea>
             </label><br><br>
 
-            <label for="tnc">
-                <input type="checkbox">Mention the terms
+            <label for="tnc" class="terms">
+                <input type="checkbox" name="tnc" required>Terms and Condition
             </label><br><br>
 
-            <button>Apply Leave</button>
-            <button>Cancel</button>
+            <button class="apply" type="submit">Submit Leave Application</button>
         </form>
     </div>
 </body>

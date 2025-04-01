@@ -53,28 +53,27 @@ def login(request):
 
 def leaveapply(request):
     if request.method == 'GET':
-        sp_id = request.session.get('sp_id')
-        student = StudentBasicDetail.objects.get(sp_id=sp_id)
-        serializer = StudentBasicDetailSerializer(student)
-        return render(request, 'form.html', {'student': serializer.data})
+        return render(request, 'apply_leave.html')
 
     elif request.method == 'POST':
-        student_name = request.POST.get('student_name')
+        sp_id = request.session.get('sp_id') #Get student id from session.
         start_date_str = request.POST.get('start_date')
         end_date_str = request.POST.get('end_date')
         reason = request.POST.get('reason')
-        place_to_visit = request.POST.get('place_to_visit')
+        block = request.POST.get('block')
+        room = request.POST.get('room')
+        visiting_address = request.POST.get('visiting_address')
 
         try:
             start_date = datetime.datetime.strptime(start_date_str, '%Y-%m-%d').date()
             end_date = datetime.datetime.strptime(end_date_str, '%Y-%m-%d').date()
 
-            no_of_days = (end_date - start_date).days
+            no_of_days = (end_date - start_date).days + 1 #Add 1 to include the end date.
 
-            if no_of_days < 0:
-                return HttpResponse("End date must be after start date.")
+            if no_of_days <= 0:
+                return HttpResponse("End date must be on or after start date.")
 
-            student = StudentBasicDetail.objects.get(name=student_name)
+            student = StudentBasicDetail.objects.get(sp_id=sp_id)
 
             leave = LeaveHistory.objects.create(
                 student_id=student,
@@ -82,7 +81,7 @@ def leaveapply(request):
                 end_date=end_date,
                 no_of_days=no_of_days,
                 reason=reason,
-                place_to_visit=place_to_visit
+                place_to_visit=visiting_address, 
             )
 
             if leave:
