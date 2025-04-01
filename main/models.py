@@ -4,12 +4,12 @@ class StudentBasicDetail(models.Model):
     name = models.CharField(max_length=100)
     enrollment_no = models.IntegerField()  
     sp_id = models.IntegerField()        
-    department = models.ForeignKey('Department', on_delete=models.CASCADE)    
+    department = models.ForeignKey('Department', on_delete=models.CASCADE)
+    Batch_Year = models.CharField(max_length=20)    
     password = models.CharField(max_length=50)
-    FA = models.ForeignKey('FacultyDetail', on_delete=models.CASCADE)         
 
     def __str__(self):
-        return f"{self.name} - {self.enrollment_no}-{self.department}-{self.FA}"
+        return f"{self.name} - {self.enrollment_no}-{self.department}-{self.Batch_Year}"
 
 class StudentContactDetail(models.Model):
     StudentID = models.ForeignKey('StudentBasicDetail', on_delete=models.CASCADE) 
@@ -26,16 +26,23 @@ class StudentContactDetail(models.Model):
     def __str__(self):
         return str(self.StudentID)
 
+from django.db import models
+
 class LeaveHistory(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    )
     student_id = models.ForeignKey('StudentBasicDetail', on_delete=models.CASCADE)
-    start_date = models.DateField(max_length=20)     
-    end_date = models.DateField(max_length=20)      
+    start_date = models.DateField(max_length=20)
+    end_date = models.DateField(max_length=20)
     no_of_days = models.IntegerField()
-    reason = models.CharField(max_length=20)       
+    reason = models.CharField(max_length=20)
     place_to_visit = models.CharField(max_length=20)
-    status_parent = models.BooleanField()
-    status_fa = models.BooleanField()
-    status_incharge = models.BooleanField()
+    status_parent = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    status_fa = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    status_incharge = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
 
     def __str__(self):
         return str(self.student_id)
@@ -44,7 +51,9 @@ class LeaveHistory(models.Model):
 class FacultyDetail(models.Model):
     name = models.CharField(max_length=255)
     department = models.ForeignKey('Department', on_delete=models.CASCADE)    
-    Batch_Year = models.CharField(max_length=20)    
+    Batch_Year = models.CharField(max_length=20)
+    fp_id = models.IntegerField()
+    password = models.CharField(max_length=50)    
     is_incharge = models.BooleanField()
 
     def __str__(self):

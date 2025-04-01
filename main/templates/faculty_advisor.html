@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FA</title>
+</head>
+<body>
+    <h1>Faculty Advisor</h1>
+    {% if leave_students %}
+        {% for leave in leave_students %}
+            <p>{{ leave.student_id.name }} - {{ leave.reason }} - {{ leave.start_date }} - {{ leave.end_date }} - {{ leave.status_fa }}</p>
+            <button name="approve" id="{{ leave.id }}">Approve</button>
+            <button name="reject" id="{{ leave.id }}">Reject</button>
+        {% endfor %}
+    {% else %}
+        <p>No leave requests found.</p>
+    {% endif %}
+    
+
+
+
+    <script>
+        const approveButton = document.getElementsByName('approve');
+        const rejectButton = document.getElementsByName('reject');
+
+        approveButton.forEach(button => {
+            button.addEventListener('click', function() {
+                const leaveId = this.id;
+                console.log(leaveId);
+                fetch(`/approve_leave/${leaveId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    window.location.reload();
+                });
+            });
+        });
+
+        rejectButton.forEach(button => {
+            button.addEventListener('click', function() {
+                const leaveId = this.id;
+                console.log(leaveId);
+                fetch(`/reject_leave/${leaveId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    window.location.reload();
+                });
+            });
+        });
+
+
+
+    </script>
+</body>
+</html>
