@@ -50,35 +50,73 @@
     
     <div class="card mt-4">
       <div class="card-body" style="border-left: 7px solid #e6edf3;">
-          <h5>Leave for Summer Vacation</h5>
+          <h5>Reason: {{leave.reason}}</h5>
           <p>Sunmitted on: 12th Jan 2024</p>
           <br>
           <h6>Time Period</h6>
-          <p>From: &nbsp;<b>12th Jan 2024 </b> | To:&nbsp; <b>20th Jan 2024</b></p>
+          <p>From: &nbsp;<b>{{leave.start_date}} </b> | To:&nbsp; <b>{{leave.end_date}}</b></p>
           <br>
-          <div class="status-rejected mt-3">
+          
+          <!-- <div class="status-rejected mt-3">
             <i class="fa-solid fa-xmark" style="font-size: 20px; margin-right: 20px;"></i> Rejected by Hostel Incharge
-        </div>
+          </div> -->
     
         <p class="mt-4 text-dark">Approval Timeline</p>
+
         <div class="d-flex">
             <div class="timeline-step">
                 <div class="circle completed">1</div> Student ➝ &nbsp;
             </div>
-            <div class="timeline-step">
+            
+            {% if leave.status_parent == "pending" %}
+           <div class="timeline-step">
                 <div class="circle pending">2</div> Parent ➝ &nbsp;
             </div>
+            {% elif leave.status_parent == "approved" %}
             <div class="timeline-step">
-                <div class="circle pending">3</div> Advisor ➝ &nbsp;
+              <div class="circle completed">2</div> Parent ➝ &nbsp;
+          </div>
+          
+          {% elif leave.status_parent == "rejected" %}
+            <div class="timeline-step">
+              <div class="circle rejected">2</div> Parent ➝ &nbsp;
+          </div>
+            {% endif %}
+            {% if leave.status_fa == "approved" %}
+            <div class="timeline-step">
+                <div class="circle completed">3</div> Advisor ➝ &nbsp;
             </div>
+            {% elif leave.status_fa == "pending" %}
             <div class="timeline-step">
+              <div class="circle pending">3</div> Advisor ➝ &nbsp;
+          </div>
+          {% elif leave.status_fa == "rejected" %}
+          <div class="timeline-step">
+            <div class="circle rejected">3</div> Advisor ➝ &nbsp;
+        </div>
+            {% endif %}
+            {% if leave.status_incharge == "approved" %}
+            <div class="timeline-step">
+                <div class="circle completed">4</div> Hostel  &nbsp;
+            </div>
+            {% elif leave.status_incharge == "pending" %}
+            <div class="timeline-step">
+              <div class="circle pending">4</div> Hostel  &nbsp;
+          </div>
+          {% elif leave.status_incharge == "rejected" %}
+          <div class="timeline-step">
+            <div class="circle rejected">4</div> Hostel  &nbsp;
+        </div>
+            {% endif %}
+            {% comment %} <div class="timeline-step">
                 <div class="circle rejected">4</div> Hostel &nbsp;
-            </div>
+            </div> {% endcomment %}
         </div>
     
       </div>
   </div>
 <br>
+
   <h5 class="mt-4">Leave History</h5>
   <div class="row mb-3">
       <div class="col-md-6">
@@ -87,7 +125,7 @@
               <p>Submitted on: 12th Jan 2024</p>
               <br>
               <p class="m-0">From: <b>12th Jan 2024</b></p>
-              <p>To: ><b>20th Jan 2024</b></p>
+              <p>To: <b>20th Jan 2024</b></p>
           </div>
       </div>
       <div class="col-md-6">

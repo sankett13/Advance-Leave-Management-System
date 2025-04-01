@@ -46,9 +46,9 @@ def login(request):
                     request.session['sp_id'] = user_id
                     print("here in student")
                     c_detail=StudentContactDetail.objects.get(id=student.id)
-                    print(c_detail)
-                    
-                    return render(request,"Student.html",{"student":student,"info":c_detail})
+                    current_leave = LeaveHistory.objects.filter(student_id=student.id).first()
+                    leave_history = LeaveHistory.objects.filter(student_id=student.id)
+                    return render(request,"Student.html",{"student":student,"info":c_detail,"leave":current_leave,"leave_history":leave_history})
                 else:
                     messages.error(request, "Login failed. Incorrect password.")
                     return redirect('login')

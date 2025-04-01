@@ -14,26 +14,18 @@
 <body>
     <div class="container card  login">
     <h2 class="login-text">Login</h2>
-    <form action="{% url 'login' %}" method="post">
-        {% csrf_token %}
-<<<<<<< HEAD
-        <label for="sp_id">sp_id:</label>
-        <input type="text" id="sp_id" name="sp_id" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="Login">
-    </form>
-<<<<<<< HEAD
-    
-=======
-=======
-        <label for="sp_id">sp_id:</label><br>
-        <input type="text" id="sp_id" name="sp_id" required class="id"><br><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required class="pass"><br><br>
-        <button type="submit" value="Login" class="btn btn-login">Login</button>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            
+            <label for="sp_id">sp_id:</label><br>
+            <input type="text" id="sp_id" name="sp_id" required class="id"><br><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required class="pass"><br><br>
+            <button type="submit" value="Login" class="btn btn-login">Login</button>
+        </form>
+
     </div>
->>>>>>> ef0a978fe5d695b6a0b4482c0d46dac040ced872
->>>>>>> 4342fcc27824d040fcbf3188ae1664eb669d7e98
+
+
 </body>
 </html>
