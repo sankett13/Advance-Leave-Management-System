@@ -33,63 +33,19 @@
       <div class="sidebar text-white position-fixed">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="">Dashboard</a>
+            <a class="nav-link" href=""><img src="{% static 'images/DashboardIcon.svg' %}" alt="Home Icon"></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">Apply leave</a>
+          <li class="nav-item2">
+            <a class="nav-link" href=""><img src="{% static 'images/ApplyIcon.svg' %}" alt="Leave Icon"></a>
           </li>
          
         </ul>
      
       </div>
       <div class="content">
-        <div class="container-fluid">
-        <div class="student_info">
-            <div class="top_info">
-              <div class="row">
-                <div class="col-md-6 text-left text-md-left text-center">
-                  <p><b>Name:</b> name </p>
-                  <p><b>Enrollment No:</b> enrollment</p>
-                </div>
-                <div class="col-md-6 text-md-right text-center">
-                  <p><b>SPID:</b>spid</p>
-                  <p><b>Academic Year:</b> 2022-2023</p>
-                </div>
-              </div>
-              <!-- Photo -->
-              <img src="{% static 'images/student_photo.jpg' %}" alt="Student Photo" class="student-photo" />
-            </div>
-            <!-- Secondary Information -->
-            <div class="bottom_info">
-              <div class="row">
-                <div class="col-md-6 text-left text-md-left text-center">
-                  <p><b>Semester:</b>semester</p>
-                  <p><b>Gender:</b>gender</p>
-                </div>
-                <div class="col-md-6 text-md-right text-center">
-                  <p><b>Program Name:</b> </p>
-                  <p>CSD</p>
-                </div>
-              </div>
-            </div>
-            <span>Permanent Address</span>&nbsp;
-            <span>Hostel Name</span>&nbsp;
-            <span>Room No</span>&nbsp;
-          </div>
-        </div>
-        <br>
-        <div><p>Reason for leave</p>
-            <p>From:</p>
-            <p>To</p>
-            progress bar
-            <button type="button">Download letter</button>
-        </div><br>
-                <div>
-          <p>Last leave history</p>
-        </div>
-        
+        {% block content %} {% endblock %}  
       </div>
-    {% block content %} {% endblock %}  
+    
 </div>  
 </body>
 </html>

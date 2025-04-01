@@ -50,12 +50,16 @@ html, body {
     height: 100vh;
     position: fixed;
     top: 70px;
-    width: 16.6667%;
-    padding: 15px;
+    width: 6%;
+    padding: 10px;
 }
 
+.sidebar ul {
+    margin-top: 20px;
+}
 
 .sidebar .nav-link {
+    
     color: white;
     padding: 15px 15px;
     display: flex;
@@ -64,69 +68,16 @@ html, body {
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
 }
-
+.sidebar .nav-link img {
+    height: 30px;
+    width: 30px;
+}
 .sidebar .nav-link:hover {
     background-color: #006ba8;
     color: #f9f9f9;
 }
 
-
-
 .content {
-    
-    margin-left: 16.6667%;
-    padding: 20px 0px;
-    width: 83.3333%;
-}
-
-ul {
-    margin-top: 30px;
-}
-
-li {
-    padding-top: 10px;
-    font-size: 1.05em;
-
-}
-
-li i {
-    font-size: .9em;
-    rotate: 90deg;
-}
-.content {
-    margin-top: 74px;
-  }
-  
-  .student_info {
-    border: 1px solid #cccccc;
-  }
-  
-  .top_info {
-    background-color: #005384;
-    color: white;
-    padding: 20px;
-    position: relative;
-    text-align: center;
-  }
-  
-  .bottom_info {
-    background-color: #d9e5ed;
-    padding: 20px;
-    margin-top: -45px;
-    padding-top: 60px;
-  }
-  
-  .student-photo {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 4px solid white;
-    object-fit: cover;
-    position: absolute;
-    top: 105%;
-    left: 50%;
-    transform: translate(-50%, -60%);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 2;
+    margin-top: 100px;
   }
   

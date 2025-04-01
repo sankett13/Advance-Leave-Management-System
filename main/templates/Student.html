@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/student.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container p-0">
+    <div class="student_info">
+        <div class="top_info">
+          <div class="row">
+            <div class="col-md-6 text-left text-md-left text-center">
+              <p><b>Name:</b> name </p>
+              <p><b>Enrollment No:</b> enrollment</p>
+            </div>
+            <div class="col-md-6 text-md-right text-center">
+              <p><b>SPID:</b>spid</p>
+              <p><b>Academic Year:</b> 2022-2023</p>
+            </div>
+          </div>
+          <!-- Photo -->
+          <img src="{% static 'images/student_photo.jpg' %}" alt="Student Photo" class="student-photo" />
+        </div>
+        <!-- Secondary Information -->
+        <div class="bottom_info">
+          <div class="row">
+            <div class="col-md-6 text-left text-md-left text-center">
+              <p><b>Semester:</b>semester</p>
+              <p><b>Gender:</b>gender</p>
+            </div>
+            <div class="col-md-6 text-md-right text-center">
+              <p><b>Program Name:</b> </p>
+              <p>CSD</p>
+            </div>
+          <div class="col-md-4 text-left text-md-left text-center ">
+            <p><b>Permanent Address:</b>Permanent Address</p>
+          </div>
+          <div class="col-md-4 text-md-center text-center">
+            <p><b>Hostel Name:</b>Hostel Name</p>
+            
+          </div>
+          <div class="col-md-4 text-md-right text-center">
+            <p><b>Room No:</b>Room No</p>
+          </div>
+        </div>
+        </div>
+      </div>
+   
+    <br>
+    <div><p>Reason for leave</p>
+        <p>From:</p>
+        <p>To</p>
+        progress bar
+        <button type="button">Download letter</button>
+    </div><br>
+            <div>
+      <p>Last leave history</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+body {
+    background-color: #f8f9fa;
+}
+.content{
+    margin-left: 6%;
+    margin-top: 100px;
+}
+.nav-item2{
+    display:none;
+}
+.FAimage{
+    margin-right: 30px;
+}
+.searchbar{
+    margin-left:auto;
+   
+}
+.customsearch {
+    height: 40px;
+    border-radius: 5px;
+}
+
+.input-group-text {
+    background-color: #ffffff;
+    border-right: none;
+}
+.input-group{
+    width: 600px;
+}
+.form-control {
+    border-left: none;
+}
+.card1{
+    background-color: rgba(249, 180, 21, 0.158);
+}
+.card2{
+    background-color: rgba(0, 140, 77, 0.175);
+}
+.card3{
+    background-color: rgba(222, 32, 41, 0.223);
+}
+.card {
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.info{
+    margin-top: 40px;
+}
+.info h5{
+    margin-bottom: 40px;
+
+}
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.table img {
+    object-fit: cover;
+}
+
+
+.approve-btn{
+    background-color: #005384;
+    color: white;
+}
+
+.reject-btn{
+    background-color: #ffffff;
+    color: #005384;
+    border: 1px solid #005384;
+}
