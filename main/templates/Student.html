@@ -11,12 +11,12 @@
         <div class="top_info">
           <div class="row">
             <div class="col-md-6 text-left text-md-left text-center">
-              <p><b>Name:</b> name </p>
-              <p><b>Enrollment No:</b> enrollment</p>
+              <p><b>Name:</b> {{student.name}} </p>
+              <p><b>Enrollment No:</b>{{student.enrollment_no}}</p>
             </div>
             <div class="col-md-6 text-md-right text-center">
-              <p><b>SPID:</b>spid</p>
-              <p><b>Academic Year:</b> 2022-2023</p>
+              <p><b>SPID:</b>{{student.sp_id}}</p>
+              <p><b>Academic Year:</b> {{student.Batch_Year}}</p>
             </div>
           </div>
           <!-- Photo -->
@@ -26,22 +26,22 @@
         <div class="bottom_info">
           <div class="row">
             <div class="col-md-6 text-left text-md-left text-center">
-              <p><b>Semester:</b>semester</p>
-              <p><b>Gender:</b>gender</p>
+              <p><b>Semester:</b>6</p>
+              <p><b>Gender:</b>Female</p>
             </div>
             <div class="col-md-6 text-md-right text-center">
               <p><b>Program Name:</b> </p>
-              <p>CSD</p>
+              <p>{{student.department}}</p>
             </div>
           <div class="col-md-4 text-left text-md-left text-center ">
-            <p><b>Permanent Address:</b>Permanent Address</p>
+            <p><b>Permanent Address:</b>{{info.Address}},{{info.City}},{{info.Pincode}}</p>
           </div>
           <div class="col-md-4 text-md-center text-center">
-            <p><b>Hostel Name:</b>Hostel Name</p>
+            <p><b>Hostel Name:</b>Sharda Girls Hostel</p>
             
           </div>
           <div class="col-md-4 text-md-right text-center">
-            <p><b>Room No:</b>Room No</p>
+            <p><b>Room No:</b>{{info.Hostel_Block}}-{{info.Room_No}}</p>
           </div>
         </div>
         </div>

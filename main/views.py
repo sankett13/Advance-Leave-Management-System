@@ -8,9 +8,14 @@ from rest_framework.response import Response
 from django.contrib import messages
 from datetime import date
 
-def student(request):
-    if request.method == 'GET':
-        return render(request, 'Student.html')
+# def student(request):
+#     if request.method == 'GET':
+#         print("get method hai")
+#         return render(request, 'Student.html')
+#     if request.method=="POST":
+#         sp_id=request.session.get("sp_id")
+#         print("hello",sp_id)
+        
 
 def FA(request):
     return render(request, 'FA.html')
@@ -40,7 +45,10 @@ def login(request):
                 if student.password == password:
                     request.session['sp_id'] = user_id
                     print("here in student")
-                    return redirect('student')
+                    c_detail=StudentContactDetail.objects.get(id=student.id)
+                    print(c_detail)
+                    
+                    return render(request,"Student.html",{"student":student,"info":c_detail})
                 else:
                     messages.error(request, "Login failed. Incorrect password.")
                     return redirect('login')
@@ -103,7 +111,22 @@ def leaveapply(request):
 def faculty_advisor(request):
     id = request.session.get('fp_id')
     faculty_advisor = get_object_or_404(FacultyDetail, fp_id=id)
-    students = StudentBasicDetail.objects.filter(Batch_Year=faculty_advisor.Batch_Year, department=faculty_advisor.department)
+    if faculty_advisor.is_incharge == True:
+        leave_applications = LeaveHistory.objects.filter(status_fa='approved', status_incharge='pending')
+        pending_count = LeaveHistory.objects.filter(status_incharge='pending', status_fa='approved').count()
+        approved_count = LeaveHistory.objects.filter(status_incharge='approved', status_fa='approved').count()
+        rejected_count = LeaveHistory.objects.filter(status_incharge='rejected', status_fa='approved').count()
+        context = {
+            'faculty_advisor': faculty_advisor,
+            'leave_applications': leave_applications,
+            'pending_count': pending_count,
+            'approved_count': approved_count,
+            'rejected_count': rejected_count,
+        }
+
+        return render(request, 'FA.html', context)
+    else:
+        students = StudentBasicDetail.objects.filter(Batch_Year=faculty_advisor.Batch_Year, department=faculty_advisor.department)
 
     today = date.today()
     leave_applications = LeaveHistory.objects.filter(student_id__in=students, status_fa='pending')
@@ -127,7 +150,12 @@ def approve_leave(request, leave_id):
     if request.method == 'POST':
         try:
             leave = get_object_or_404(LeaveHistory, id=leave_id)
-            leave.status_fa = 'approved'
+            id = request.session.get('fp_id')
+            faculty_advisor = get_object_or_404(FacultyDetail, fp_id=id)
+            if faculty_advisor.is_incharge == True:
+                leave.status_incharge = 'approved'
+            else:
+                leave.status_fa = 'approved'
             leave.save()
             return JsonResponse({'message': 'Leave approved successfully', 'ok': True}, status=200)
         except Exception as e:
@@ -138,7 +166,12 @@ def reject_leave(request, leave_id):
     if request.method == 'POST':
         try:
             leave = get_object_or_404(LeaveHistory, id=leave_id)
-            leave.status_fa = 'rejected'
+            id = request.session.get('fp_id')
+            faculty_advisor = get_object_or_404(FacultyDetail, fp_id=id)
+            if faculty_advisor.is_incharge == True:
+                leave.status_incharge = 'rejected'
+            else:
+                leave.status_fa = 'rejected'
             leave.save()
             return JsonResponse({'message': 'Leave rejected successfully', 'ok': True}, status=200)
         except Exception as e:
