@@ -16,7 +16,8 @@ from datetime import date
 #         sp_id=request.session.get("sp_id")
 #         print("hello",sp_id)
         
-
+def Hostel(request):
+    return render(request, 'Hostel.html')
 def FA(request):
     return render(request, 'FA.html')
 

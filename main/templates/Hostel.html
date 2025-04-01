@@ -6,3 +6,69 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
+    <div class="d-flex align-items-center mb-3">
+        <img src="{% static 'images/Hostel.jpg' %}" alt="Profile" class="profile-img me-3 mr-3">
+        <div>
+            <h5>Dr. Kalpana Gupta</h5>
+            <p class="text-muted mb-0">Hostel Superintendent</p>
+        </div>
+    </div>
+    <br>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="leave-box bg-light-blue">
+                <h1>10</h1>
+                <p>Today's Leave</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="leave-box bg-dark-blue">
+                <h1>23</h1>
+                <p>Other day’s Leave</p>
+            </div>
+        </div>
+    </div>
+<br>
+    <div class="info">
+        <h5 >Today's leave applications</h5>
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Days</th>
+                    <th>Room-No</th>
+                  
+                </tr>
+            </thead>
+            <tbody>
+                {% for leave in leave_applications %}
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="{% if leave.student_id.Profile_Photo %}{{ leave.student_id.Profile_Photo.url }}{% else %}{% static 'images/student_photo.jpg' %}{% endif %}" alt="Profile" class="rounded-circle mr-3" width="50" height="50">
+                            <div>
+                                <strong>{{ leave.student_id.name }}</strong><br>
+                                <small style="font-size: 15px;">{{ leave.reason }}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ leave.start_date }}</td>
+                    <td>{{ leave.end_date }}</td>
+                    <td>{{ leave.no_of_days }}</td>
+                    <td>{{ leave.room_no }}</td>
+                   
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No leave applications found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}
