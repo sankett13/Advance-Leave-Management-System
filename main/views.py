@@ -1,12 +1,13 @@
 import datetime
 from django.shortcuts import render, redirect,get_object_or_404, Http404
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse,Http404
 from .models import StudentBasicDetail, LeaveHistory, StudentContactDetail, FacultyDetail
 from .serializers import LeaveHistorySerializer, StudentBasicDetailSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib import messages
 from datetime import date
+from docx import Document
 
 # def student(request):
 #     if request.method == 'GET':
@@ -16,8 +17,16 @@ from datetime import date
 #         sp_id=request.session.get("sp_id")
 #         print("hello",sp_id)
         
-def Hostel(request):
-    return render(request, 'Hostel.html')
+def hostel(request):
+    if request.method == 'GET':
+        today_leave = LeaveHistory.objects.filter(start_date__lte=date.today(), end_date__gte=date.today())
+        today_leave_count = today_leave.count()
+        context = {
+            'today_leave': today_leave,
+            'today_leave_count': today_leave_count
+        }
+        return render(request, 'Hostel.html', context)
+    
 def FA(request):
     return render(request, 'FA.html')
 
@@ -30,32 +39,41 @@ def login(request):
         password = request.POST.get('password')
 
         try:
-            faculty = get_object_or_404(FacultyDetail, fp_id=user_id)
-            if faculty.password == password:
+            hostel_incharge = get_object_or_404(FacultyDetail, fp_id=user_id)
+            if hostel_incharge.password == password and hostel_incharge.department.dep_name == "Sharda Hostel Incharge":
                 request.session['fp_id'] = user_id
-                return redirect('faculty_advisor')
+                return redirect('hostel')
             else:
-                print("here")
                 messages.error(request, "Login failed. Incorrect password.")
-                return redirect('login')
+                raise Http404
         except Http404:
             try:
-                print("here")
-                student = get_object_or_404(StudentBasicDetail, sp_id=user_id)
-                print(student)
-                if student.password == password:
-                    request.session['sp_id'] = user_id
-                    print("here in student")
-                    c_detail=StudentContactDetail.objects.get(id=student.id)
-                    current_leave = LeaveHistory.objects.filter(student_id=student.id).first()
-                    leave_history = LeaveHistory.objects.filter(student_id=student.id)
-                    return render(request,"Student.html",{"student":student,"info":c_detail,"leave":current_leave,"leave_history":leave_history})
+                faculty = get_object_or_404(FacultyDetail, fp_id=user_id)
+                if faculty.password == password:
+                    request.session['fp_id'] = user_id
+                    return redirect('faculty_advisor')
                 else:
+                    print("here")
                     messages.error(request, "Login failed. Incorrect password.")
                     return redirect('login')
             except Http404:
-                messages.error(request, "Login failed. User not found.")
-                return redirect('login')
+                try:
+                    print("here")
+                    student = get_object_or_404(StudentBasicDetail, sp_id=user_id)
+                    print(student)
+                    if student.password == password:
+                        request.session['sp_id'] = user_id
+                        print("here in student")
+                        c_detail=StudentContactDetail.objects.get(id=student.id)
+                        current_leave = LeaveHistory.objects.filter(student_id=student.id).last()
+                        leave_history = LeaveHistory.objects.filter(student_id=student.id, status_parent="approved", status_incharge="approved", status_fa="approved")
+                        return render(request,"Student.html",{"student":student,"info":c_detail,"leave":current_leave,"leave_history":leave_history})
+                    else:
+                        messages.error(request, "Login failed. Incorrect password.")
+                        return redirect('login')
+                except Http404:
+                    messages.error(request, "Login failed. User not found.")
+                    return redirect('login')
         
             
 
@@ -130,9 +148,9 @@ def faculty_advisor(request):
         students = StudentBasicDetail.objects.filter(Batch_Year=faculty_advisor.Batch_Year, department=faculty_advisor.department)
 
     today = date.today()
-    leave_applications = LeaveHistory.objects.filter(student_id__in=students, status_fa='pending')
+    leave_applications = LeaveHistory.objects.filter(student_id__in=students,status_parent='approved', end_date__gte=today, status_fa='pending')
 
-    pending_count = LeaveHistory.objects.filter(student_id__in=students, status_fa='pending').count()
+    pending_count = LeaveHistory.objects.filter(student_id__in=students,status_parent='approved', end_date__gte=today, status_fa='pending').count()
     approved_count = LeaveHistory.objects.filter(student_id__in=students, status_fa='approved').count()
     rejected_count = LeaveHistory.objects.filter(student_id__in=students, status_fa='rejected').count()
 
@@ -178,3 +196,49 @@ def reject_leave(request, leave_id):
         except Exception as e:
             return JsonResponse({'error': str(e), 'ok': False}, status=500)
     return JsonResponse({'error': 'Invalid request method', 'ok': False}, status=400)
+
+def download_leave_letter(request, leave_id):
+    leave = get_object_or_404(LeaveHistory, id=leave_id)
+    student = leave.student_id  # Assuming a ForeignKey relationship
+    print(student.id)
+    StudentContactInfo = get_object_or_404(StudentContactDetail, StudentID=student.id)
+    document = Document()
+    document.add_heading("Leave Letter", level=1)
+
+    paragraph = document.add_paragraph()
+    paragraph.add_run("Respected Madam, ").bold = True
+    # paragraph.add_run(f"{student.name}").bold = True
+
+    paragraph = document.add_paragraph()
+    paragraph.add_run(f"I {student.name} studing in {student.department} request you to kindly accept my leave.").bold = True
+
+    paragraph.add_run(f"My leave is from {leave.start_date} to {leave.end_date}, failing to which I will accept any academic penalty/or monetary penalty.").bold = True
+
+    paragraph = document.add_paragraph()
+    paragraph.add_run(f"Reason for seeking leave:{leave.reason}").bold = True
+
+    paragraph = document.add_paragraph()
+    paragraph.add_run(f"Hostel Block: {StudentContactInfo.Hostel_Block}").bold = True
+
+    paragraph = document.add_paragraph()
+    paragraph.add_run(f"Room Number: {StudentContactInfo.Room_No}, Hostel Name: Sharda Girls Hostel").bold = True
+
+    paragraph = document.add_paragraph()
+    paragraph.add_run(f"Student Contact Number: {StudentContactInfo.PhoneNumber}").bold = True
+
+    paragraph = document.add_paragraph()
+    paragraph.add_run(f"Parent Contact Number: {StudentContactInfo.Parent_No}").bold = True
+
+    paragraph = document.add_paragraph()
+    paragraph.add_run("Thank you for your understanding.").bold = True
+
+    paragraph = document.add_paragraph()
+    paragraph.add_run("Sincerely,").bold = True
+
+    paragraph = document.add_paragraph()
+    paragraph.add_run(f"{student.name}").bold = True
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = 'attachment; filename=leave_letter.docx'
+    document.save(response)
+    return response

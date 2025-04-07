@@ -88,3 +88,49 @@ li i {
 .circle.rejected {
     background-color: #DE2029;
 }
+
+.print-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .print-button:hover {
+    background-color: #1e7e34;
+  }
+
+  .leave-details {
+    display: none; /* Initially hide the details */
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    white-space: pre-line; /* Preserve line breaks */
+  }
+
+  .download-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .download-button:hover {
+    background-color: #0056b3;
+  }

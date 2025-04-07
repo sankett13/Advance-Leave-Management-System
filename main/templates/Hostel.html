@@ -18,7 +18,7 @@
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="leave-box bg-light-blue">
-                <h1>10</h1>
+            <h1>{{today_leave.count}}</h1>
                 <p>Today's Leave</p>
             </div>
         </div>
@@ -44,7 +44,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for leave in leave_applications %}
+                {% for leave in today_leave %}
                 <tr>
                     <td>
                         <div class="d-flex align-items-center">

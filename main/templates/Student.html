@@ -37,7 +37,7 @@
             <p><b>Permanent Address:</b>{{info.Address}},{{info.City}},{{info.Pincode}}</p>
           </div>
           <div class="col-md-4 text-md-center text-center">
-            <p><b>Hostel Name:</b>Sharda Girls Hostel</p>
+            <p><b>Hostel Name:</b> Sharda Girls Hostel</p>
             
           </div>
           <div class="col-md-4 text-md-right text-center">
@@ -116,8 +116,37 @@
       </div>
   </div>
 <br>
-
-  <h5 class="mt-4">Leave History</h5>
+  
+  {% if leave_history %}
+    <h4>Leave History</h4>
+    {% for leave in leave_history %}
+    <div class="card mt-2">
+      <div class="card-body" style="border-left: 7px solid #e6edf3;">
+          <h5>Reason: {{leave.reason}}</h5>
+          <p>Sunmitted on: 12th Jan 2024</p>
+          <br>
+          <h6>Time Period</h6>
+          <p>From: &nbsp;<b>{{leave.start_date}} </b> | To:&nbsp; <b>{{leave.end_date}}</b></p>
+          <br>
+          {% if leave.status_incharge == "approved" %}
+          <div class="status-approved mt-3">
+            <i class="fa-solid fa-check" style="font-size: 20px; margin-right: 20px;"></i> Approved by Hostel Incharge
+          </div>
+          <a href="{% url 'download_leave_letter' leave.id %}" class="download-button">Download Letter</a>
+          {% elif leave.status_incharge == "pending" %}
+          <div class="status-pending mt-3">
+            <i class="fa-solid fa-spinner" style="font-size: 20px; margin-right: 20px;"></i> Pending by Hostel Incharge
+          </div>
+          {% elif leave.status_incharge == "rejected" %}
+          <div class="status-rejected mt-3">
+            <i class="fa-solid fa-xmark" style="font-size: 20px; margin-right: 20px;"></i> Rejected by Hostel Incharge
+          </div>
+          {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+  {% endif %}
+  <!-- <h5 class="mt-4">Leave History</h5>
   <div class="row mb-3">
       <div class="col-md-6">
           <div class="card p-3 mt-2 mb-5" style="background-color: #e6edf3;">
@@ -137,6 +166,7 @@
               <p>To: <b>20th Jan 2024</b></p>
           </div>
       </div>
-  </div>
+  </div> -->
+  
 </div>
 {% endblock %}
