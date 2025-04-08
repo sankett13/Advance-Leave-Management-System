@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent</title>
+</head>
+<body>
+        {% if leave %}
+            {% for leave in leave%}
+                {{leave.student_id.name}}
+                {{leave.reason}}
+                {{leave.start_date}}
+                {{leave.end_date}}
+                <button data-leave-id="{{leave.id}}" class="approve-btn" name="btn">Approve</button>
+                <button data-leave-id="{{leave.id}}" class="reject-btn" name="btn">Reject</button>
+            {% endfor%}
+        {% endif %}
+    
+    
+    
+    <script>
+        const approveButtons = document.querySelectorAll('.approve-btn');
+        const rejectButtons = document.querySelectorAll('.reject-btn');
+
+        approveButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const leaveId = this.dataset.leaveId;
+                fetch(`/parent_approve/${leaveId}/`, {
+                    method: 'POST',
+                    body: JSON.stringify({action : "approve"}),
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        window.location.reload();
+                        console.log("approved")
+                    } else {
+                        console.error('Approval failed:', data.error);
+                        alert("Approval failed, please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert("Approval failed, please check your network connection.");
+                });
+            });
+        });
+
+        rejectButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const leaveId = this.dataset.leaveId;
+                fetch(`/parent_approve/${leaveId}/`, {
+                    method: 'POST',
+                    body: JSON.stringify({action : "reject"}),
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        window.location.reload();
+                    } else {
+                        console.error('Rejection failed:', data.error);
+                        alert("Rejection failed, please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert("Rejection failed, please check your network connection.");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
