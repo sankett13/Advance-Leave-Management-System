@@ -47,7 +47,7 @@
         </div>
       </div>
    
-    
+    {% if leave %}
     <div class="card mt-4">
       <div class="card-body" style="border-left: 7px solid #e6edf3;">
           <h5>Reason: {{leave.reason}}</h5>
@@ -115,6 +115,7 @@
     
       </div>
   </div>
+  {% endif %}
 <br>
   
   {% if leave_history %}
