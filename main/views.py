@@ -19,7 +19,7 @@ import json
 #     if request.method=="POST":
 #         sp_id=request.session.get("sp_id")
 #         print("hello",sp_id)
-        
+     
 def hostel_incharge(request):
     if request.session.get('fp_id') is None:
         return redirect('login')
@@ -277,7 +277,7 @@ def download_leave_letter(request, leave_id):
         return response
 
 
-
+# Email function
 def send_email(message_content):
     subject = message_content['subject']
     message = message_content['body']
